@@ -11,7 +11,7 @@
 //     $("#text").valueOf(localStorage.getItem(text));
 // }
 // variable to store and loop through scheduler
-var workDay = [
+var workSch = [
   {
       id: "0",
       hour: "09",
@@ -80,28 +80,28 @@ var workDay = [
 
 // gets data for the header date
 function getHeaderDate() {
-  var currentHeaderDate = moment().format('dddd, MMMM Do');
-  $("#currentDay").text(currentHeaderDate);
+  var currentDate = moment().format('dddd, MMMM Do');
+  $("#currentDay").text(currentDate);
 }
 
 // saves data to localStorage
 function saveReminders() {
-  localStorage.setItem("workDay", JSON.stringify(workDay));
+  localStorage.setItem("workSch", JSON.stringify(workSch));
 }
 
 // sets any data in localStorage to the view
 function displayReminders() {
-  workDay.forEach(function (_thisHour) {
+  workSch.forEach(function (_thisHour) {
       $(`#${_thisHour.id}`).val(_thisHour.reminder);
   })
 }
 
 // sets any existing localStorage data to the view if it exists
 function init() {
-  var storedDay = JSON.parse(localStorage.getItem("workDay"));
+  var storedDay = JSON.parse(localStorage.getItem("workSch"));
 
   if (storedDay) {
-      workDay = storedDay;
+      workSch = storedDay;
   }
 
   saveReminders();
@@ -112,7 +112,7 @@ function init() {
 getHeaderDate();
 
 // creates the visuals for the scheduler body
-workDay.forEach(function(thisHour) {
+workSch.forEach(function(thisHour) {
   // creates timeblocks row
   var hourRow = $("<form>").attr({
       "class": "row"
@@ -166,8 +166,8 @@ init();
 $(".saveBtn").on("click", function(event) {
   event.preventDefault();
   var saveIndex = $(this).siblings(".description").children(".future").attr("id");
-  workDay[saveIndex].reminder = $(this).siblings(".description").children(".future").val();
+  workSch[saveIndex].reminder = $(this).siblings(".description").children(".future").val();
   console.log(saveIndex);
   saveReminders();
   displayReminders();
-})
+});
